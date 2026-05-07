@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Usage guide: Markdown and README to printable PDF with Streamlit—install, run, and export." />
+  <title>Markdown → PDF — Usage</title>
+  <style>
+    :root {
+      --bg: #ffffff;
+      --text: #24292f;
+      --muted: #57606a;
+      --border: #d0d7de;
+      --accent: #0969da;
+      --accent-bg: #ddf4ff;
+      --code-bg: #f6f8fa;
+      --max: 46rem;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+      font-size: 1rem;
+      line-height: 1.6;
+      color: var(--text);
+      background: var(--bg);
+    }
+    header {
+      border-bottom: 1px solid var(--border);
+      padding: 1.75rem 1.25rem 1.5rem;
+      background: linear-gradient(180deg, #f6f8fa 0%, var(--bg) 100%);
+    }
+    header .inner { max-width: var(--max); margin: 0 auto; }
+    header h1 { margin: 0 0 0.35rem; font-size: 1.75rem; font-weight: 600; letter-spacing: -0.02em; }
+    header p { margin: 0; color: var(--muted); font-size: 0.95rem; }
+    nav.toc {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 1.25rem 1.25rem 0;
+    }
+    nav.toc .box {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem 1.25rem;
+      background: #fafbfc;
+    }
+    nav.toc h2 { margin: 0 0 0.75rem; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--muted); font-weight: 600; }
+    nav.toc ul { margin: 0; padding-left: 1.25rem; }
+    nav.toc li { margin: 0.35rem 0; }
+    nav.toc a { color: var(--accent); text-decoration: none; }
+    nav.toc a:hover { text-decoration: underline; }
+    main { max-width: var(--max); margin: 0 auto; padding: 1.5rem 1.25rem 3rem; }
+    main h2 {
+      margin: 2rem 0 0.75rem;
+      padding-top: 0.5rem;
+      font-size: 1.35rem;
+      font-weight: 600;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 0.35rem;
+    }
+    main h2:first-of-type { margin-top: 0; }
+    main h3 { margin: 1.25rem 0 0.5rem; font-size: 1.05rem; font-weight: 600; }
+    main p { margin: 0.65rem 0; }
+    main ul, main ol { margin: 0.65rem 0; padding-left: 1.5rem; }
+    main li { margin: 0.35rem 0; }
+    main a { color: var(--accent); }
+    .callout {
+      margin: 1rem 0;
+      padding: 0.85rem 1rem;
+      border-radius: 8px;
+      border: 1px solid #54aeff66;
+      background: var(--accent-bg);
+      font-size: 0.95rem;
+    }
+    .callout strong { color: var(--text); }
+    pre, code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.88em;
+    }
+    pre {
+      margin: 1rem 0;
+      padding: 1rem 1.1rem;
+      overflow-x: auto;
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      line-height: 1.45;
+    }
+    code { background: rgba(175, 184, 193, 0.25); padding: 0.12em 0.35em; border-radius: 4px; }
+    pre code { background: none; padding: 0; }
+    table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 0.95rem; }
+    th, td { border: 1px solid var(--border); padding: 0.5rem 0.65rem; text-align: left; }
+    th { background: var(--code-bg); font-weight: 600; }
+    footer {
+      margin-top: 2rem;
+      padding: 1.5rem 1.25rem;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 0.9rem;
+      text-align: center;
+    }
+    footer a { color: var(--muted); }
+    @media print {
+      header { background: none; }
+      nav.toc .box { break-inside: avoid; }
+      .callout { break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="inner">
+      <h1>Markdown → PDF</h1>
+      <p>Usage guide for the Streamlit app: convert README and Markdown files to a printable PDF.</p>
+    </div>
+  </header>
+
+  <nav class="toc" aria-label="On this page">
+    <div class="box">
+      <h2>On this page</h2>
+      <ul>
+        <li><a href="#overview">Overview</a></li>
+        <li><a href="#requirements">Requirements</a></li>
+        <li><a href="#install">Install and run</a></li>
+        <li><a href="#using-the-app">Using the app</a></li>
+        <li><a href="#layout">Page size and margins</a></li>
+        <li><a href="#markdown-support">What Markdown features work</a></li>
+        <li><a href="#images">Images and badges</a></li>
+        <li><a href="#troubleshooting">Troubleshooting</a></li>
+        <li><a href="#github-pages">Publish this doc on GitHub Pages</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main>
+    <section id="overview">
+      <h2>Overview</h2>
+      <p>
+        This project is a small <strong>local web app</strong> built with <a href="https://streamlit.io/" rel="noopener noreferrer">Streamlit</a>.
+        You upload or paste Markdown (for example your repository <code>README.md</code>), adjust print settings, and download a <strong>PDF</strong>
+        styled for reading and printing.
+      </p>
+      <p>
+        Processing happens on <strong>your computer</strong>; nothing is uploaded to a third-party conversion service by the app itself.
+      </p>
+    </section>
+
+    <section id="requirements">
+      <h2>Requirements</h2>
+      <ul>
+        <li><strong>Python</strong> 3.10 or newer (3.11 is a good default).</li>
+        <li><strong>pip</strong> for installing dependencies.</li>
+        <li>A terminal and a modern web browser.</li>
+      </ul>
+    </section>
+
+    <section id="install">
+      <h2>Install and run</h2>
+      <ol>
+        <li>Clone the repository (replace the URL with yours if you forked it).</li>
+      </ol>
+      <pre><code>git clone https://github.com/YOUR_USERNAME/md-readme-to-pdf.git
+cd md-readme-to-pdf</code></pre>
+      <ol start="2">
+        <li>Create and activate a virtual environment.</li>
+      </ol>
+      <pre><code>python3 -m venv .venv
+source .venv/bin/activate   # Windows: .venv\Scripts\activate</code></pre>
+      <ol start="3">
+        <li>Install dependencies and start the app.</li>
+      </ol>
+      <pre><code>pip install -r requirements.txt
+streamlit run app.py</code></pre>
+      <p>
+        Streamlit prints a local URL—usually <code>http://localhost:8501</code>. Open it in your browser.
+      </p>
+      <div class="callout">
+        <strong>Tip:</strong> Keep the terminal session open while you use the app. Press <kbd>Ctrl</kbd>+<kbd>C</kbd> in the terminal to stop the server when you are done.
+      </div>
+    </section>
+
+    <section id="using-the-app">
+      <h2>Using the app</h2>
+      <ol>
+        <li><strong>Add Markdown.</strong> Either use <strong>Upload a Markdown file</strong> and choose <code>.md</code>, <code>.markdown</code>, or <code>.txt</code>, or paste content into <strong>Or paste Markdown here</strong>.</li>
+        <li><strong>Set layout</strong> in the sidebar (see <a href="#layout">Page size and margins</a>).</li>
+        <li>Click <strong>Generate PDF</strong>. Wait until the success message appears.</li>
+        <li>Click <strong>Download PDF</strong>. The suggested filename matches your uploaded file (for example <code>README.pdf</code> for <code>README.md</code>) or defaults to <code>README.pdf</code> when you only pasted text.</li>
+      </ol>
+      <p>
+        If you see a warning about layout warnings, open the PDF anyway and check complex sections (large tables or unusual HTML). The PDF engine may still produce a usable file.
+      </p>
+    </section>
+
+    <section id="layout">
+      <h2>Page size and margins</h2>
+      <p>These options are in the <strong>sidebar</strong> under <strong>Print layout</strong>.</p>
+      <table>
+        <thead>
+          <tr>
+            <th>Option</th>
+            <th>Choices</th>
+            <th>Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Page size</td>
+            <td>A4, Letter</td>
+            <td>Pick what your printer or region expects.</td>
+          </tr>
+          <tr>
+            <td>Margins</td>
+            <td>Comfortable, Tight, Wide</td>
+            <td>Comfortable is the default balance; Tight fits more on a page; Wide gives more whitespace.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="markdown-support">
+      <h2>What Markdown features work</h2>
+      <p>The app uses Python-Markdown with common extensions. Typical project README content works well, including:</p>
+      <ul>
+        <li>Headings, paragraphs, <strong>bold</strong>, <em>italic</em>, links</li>
+        <li>Ordered and unordered lists</li>
+        <li>Fenced code blocks and inline <code>code</code></li>
+        <li>Tables</li>
+        <li>Blockquotes</li>
+        <li>Horizontal rules</li>
+      </ul>
+      <p>Very advanced Markdown or mixed raw HTML may render differently in the PDF than on GitHub; preview the PDF before sharing.</p>
+    </section>
+
+    <section id="images">
+      <h2>Images and badges</h2>
+      <ul>
+        <li><strong>Images from URLs</strong> (shields.io badges, CDN diagrams) appear in the PDF only if the PDF library can download them. Corporate proxies, firewalls, or SSL inspection may block those requests—badges might be missing while text remains.</li>
+        <li><strong>Relative paths</strong> such as <code>./docs/screenshot.png</code> are not automatically resolved from your disk when you only upload the Markdown file. Use a <strong>full URL</strong> to the image if you need it embedded reliably.</li>
+      </ul>
+    </section>
+
+    <section id="troubleshooting">
+      <h2>Troubleshooting</h2>
+      <h3>Command not found: streamlit</h3>
+      <p>Activate your virtual environment and run <code>pip install -r requirements.txt</code> again. Use the same Python you used for the venv (for example <code>python3 -m pip install -r requirements.txt</code>).</p>
+      <h3>Port already in use</h3>
+      <p>Another app may be using port 8501. Stop the other process, or run Streamlit on another port:</p>
+      <pre><code>streamlit run app.py --server.port 8502</code></pre>
+      <h3>PDF looks different from GitHub’s preview</h3>
+      <p>GitHub’s Markdown renderer is not identical to this pipeline (Markdown → HTML → PDF). Small differences in spacing, fonts, or tables are normal.</p>
+    </section>
+
+    <section id="github-pages">
+      <h2>Publish this doc on GitHub Pages</h2>
+      <p>
+        This folder contains static files for a simple documentation site. No build step is required.
+      </p>
+      <ol>
+        <li>Push the <code>docs/</code> folder to your GitHub repository.</li>
+        <li>In the repo on GitHub, open <strong>Settings → Pages</strong>.</li>
+        <li>Under <strong>Build and deployment</strong>, set <strong>Source</strong> to <strong>Deploy from a branch</strong>.</li>
+        <li>Choose branch <code>main</code> (or your default branch) and folder <strong>/docs</strong>, then save.</li>
+      </ol>
+      <p>
+        After a short build, your usage guide will be available at:
+      </p>
+      <pre><code>https://YOUR_USERNAME.github.io/REPO_NAME/</code></pre>
+      <p>
+        Replace <code>YOUR_USERNAME</code> and <code>REPO_NAME</code> with your GitHub username and repository name. The entry page is <code>docs/index.html</code>, which GitHub Pages serves as the site root.
+      </p>
+      <div class="callout">
+        <strong>Organization policy:</strong> If your employer restricts public GitHub Pages or external hosting, follow internal guidance before enabling Pages.
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>
+      <a href="https://github.com/YOUR_USERNAME/md-readme-to-pdf">Repository</a>
+      · Usage documentation for Markdown → PDF (Streamlit)
+    </p>
+  </footer>
+</body>
+</html>
